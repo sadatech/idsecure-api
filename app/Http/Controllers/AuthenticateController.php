@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Validator;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
 
 class AuthenticateController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function authenticate(Request $request)
     {
         // grab credentials from the request
@@ -29,6 +34,25 @@ class AuthenticateController extends Controller
         }
 
         // all good so return the token
-        return response()->json(compact(['token', 'provider']));
+        return response()->json(compact(['token', 'user']));
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'provider' => 'required',
+            'phone' => 'required',
+            'photo' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()]);
+        }
+
+        $user = User::create($request->all());
+        $user->update(['oauth' => $request->oauth]);
+        $token = JWTAuth::fromUser($user);
+        return response()->json(compact(['token', 'user']));
     }
 }

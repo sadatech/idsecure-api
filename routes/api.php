@@ -12,6 +12,8 @@
 */
 
 Route::post('authenticate', 'AuthenticateController@authenticate');
+Route::post('register', 'AuthenticateController@register');
+
 
 Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('/', function() {
