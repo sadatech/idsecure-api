@@ -16,7 +16,6 @@ Route::post('register', 'AuthenticateController@register');
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
-    Route::get('/', function() {
-        return 'already logged in';
-    });
+    Route::get('reports', 'ReportController@index');
+    Route::get('reports/{user}', 'ReportController@show');
 });
