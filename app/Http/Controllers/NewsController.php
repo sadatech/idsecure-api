@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\News;
 use Illuminate\Http\Request;
+use Validator;
 
 class NewsController extends Controller
 {
@@ -28,7 +29,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -39,7 +40,28 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'description' => 'required',
+            'lat' => 'required',
+            'lon' => 'required',
+            'photo' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()]);
+        }
+
+        $files = $request->file('photo');
+        $fileName = "";
+        if (!empty($file)) {
+            $fileName = time() . $file->getClientOriginalName();
+            $file->move('reports', $fileName);
+        }
+        $input = $request->all();
+        $input['photo'] = $fileName;
+        News::create($input);
+        return response()->json(['msg' => 'Berhasil di broadcast!']);
+
     }
 
     /**

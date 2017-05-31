@@ -20,4 +20,5 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('reports', 'ReportController@store');
     Route::get('reports/{user}', 'ReportController@show');
     Route::get('news', 'NewsController@index');
+    Route::post('news', 'NewsController@store');
 });
