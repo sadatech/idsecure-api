@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Report;
 use Illuminate\Http\Request;
+use Validator;
 
 class ReportController extends Controller
 {
@@ -35,7 +36,36 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'description' => 'required',
+            'lat' => 'required',
+            'lon' => 'required',
+            'photo' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()]);
+        }
+
+        $files = $request->file('photo');
+
+        $input = $request->all();
+        $input['user_id'] = \Auth::user()->id;
+        $report = Report::create($input);
+        foreach ($files as $file) {
+            $fileName = "";
+            if (!empty($file)) {
+                $fileName = time() . $file->getClientOriginalName();
+                $format = time() . $file->getClientMimeType();
+                $file->move('reports', $fileName);
+            }
+
+            $report->attachment()->create([
+                'report_id' => $report->id,
+                'file' => $fileName,
+                'format' => $format
+            ]);
+        }
+        return response()->json(['msg' => 'Laporan anda telah diterima']);
     }
 
     /**
@@ -46,7 +76,7 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        $data = Report::where('user_id', $id)->get();
+        $data = Report::where('user_id', $id)->paginate(10);
         if ( count($data) == 0 ) {
             return response()->json(['msg' => 'Tidak ada data']);
         }

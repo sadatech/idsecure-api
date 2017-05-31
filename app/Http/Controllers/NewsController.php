@@ -14,7 +14,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $data = News::latest()->get();
+        $data = News::latest()->paginate(10);
         if ( count($data) == 0 ) {
             return response()->json(['msg' => 'Tidak ada data']);
         }
