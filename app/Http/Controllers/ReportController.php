@@ -77,7 +77,7 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        $data = Report::where('user_id', $id)->paginate(10);
+        $data = Report::where('user_id', $id)->with('attachment')->paginate(10);
         if ( count($data) == 0 ) {
             return response()->json(['msg' => 'Tidak ada data']);
         }
@@ -116,5 +116,13 @@ class ReportController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function near(Report $report, Request $request)
+    {
+        $latitude = $request->lat;
+        $longitude = $request->lon;
+
+        return response()->json($report->nearest($latitude, $longitude));
     }
 }
