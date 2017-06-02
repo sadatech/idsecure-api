@@ -37,10 +37,11 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'description' => 'required',
+            'description' => 'required_if:type,normal',
             'lat' => 'required',
             'lon' => 'required',
-            'photo' => 'required',
+            'photo' => 'required_if:type,normal',
+            'type' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()]);

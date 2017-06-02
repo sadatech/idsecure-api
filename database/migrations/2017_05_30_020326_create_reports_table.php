@@ -15,11 +15,12 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->float('lat');
             $table->float('lon');
             $table->integer('user_id');
             $table->enum('status', ['checked', 'handled', 'case closed', 'hoax']);
+            $table->enum('type', ['normal', 'urgent']);
             $table->timestamps();
         });
     }
