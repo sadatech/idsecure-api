@@ -15,10 +15,6 @@ class CreateNewsReportTable extends Migration
     {
         Schema::create('news_report', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('news_id')->unsigned();
-            $table->integer('report_id')->unsigned();
-
-
             $table->integer('news_id')->references('id')->on('news')->onDelete('cascade');
             $table->integer('report_id')->references('id')->on('reports')->onDelete('cascade');
         });
