@@ -22,3 +22,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\News::class, function (Faker\Generator $faker) {
+
+    return [
+        'title' => $faker->name,
+        'description' => $faker->text,
+        'photo' => $faker->name,
+        'lat' => $faker->latitude,
+        'lon' => $faker->longitude,
+    ];
+});
