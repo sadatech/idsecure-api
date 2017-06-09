@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'a';
+});
+
+Route::get('/apis', function() {
+	return 'as';
 });
