@@ -16,7 +16,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return response()->json(Report::get());
+        return response()->json(Report::latest()->get());
     }
 
     /**
@@ -41,7 +41,7 @@ class ReportController extends Controller
             'description' => 'required_if:type,normal',
             'lat' => 'required',
             'lon' => 'required',
-            'photo' => 'required_if:type,normal',
+            'photo1' => 'required_if:type,normal',
             'type' => 'required',
             'location' => 'required',
             'area' => 'required',
@@ -80,7 +80,7 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        $data = Report::where('user_id', $id)->with('attachment')->paginate(10);
+        $data = Report::where('user_id', $id)->with('attachment')->latest()->paginate(10);
         if ( count($data) == 0 ) {
             return response()->json(['msg' => 'Tidak ada data']);
         }
