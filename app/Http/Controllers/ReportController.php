@@ -43,6 +43,8 @@ class ReportController extends Controller
             'lon' => 'required',
             'photo' => 'required_if:type,normal',
             'type' => 'required',
+            'location' => 'required',
+            'area' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()]);

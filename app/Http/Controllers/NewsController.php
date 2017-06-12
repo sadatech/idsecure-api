@@ -46,12 +46,14 @@ class NewsController extends Controller
             'lat' => 'required',
             'lon' => 'required',
             'photo' => 'required',
+            'location' => 'required',
+            'area' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()]);
         }
 
-        $files = $request->file('photo');
+        $file = $request->file('photo');
         $fileName = "";
         if (!empty($file)) {
             $fileName = time() . $file->getClientOriginalName();

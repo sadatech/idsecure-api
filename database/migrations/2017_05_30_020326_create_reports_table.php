@@ -21,6 +21,8 @@ class CreateReportsTable extends Migration
             $table->integer('user_id');
             $table->enum('status', ['checked', 'handled', 'case closed', 'hoax']);
             $table->enum('type', ['normal', 'urgent']);
+            $table->text('location');
+            $table->string('area');
             $table->timestamps();
         });
     }

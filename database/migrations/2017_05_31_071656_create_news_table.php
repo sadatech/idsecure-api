@@ -21,6 +21,9 @@ class CreateNewsTable extends Migration
             $table->double('lat');
             $table->double('lon');
             $table->enum('status', ['checked', 'handled', 'case closed', 'hoax']);
+            $table->text('location');
+            $table->string('area');
+            $table->enum('to', ['user', 'polisi']);
             $table->timestamps();
         });
     }

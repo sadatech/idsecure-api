@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class News extends Model
 {
     protected $fillable = [
-        'title', 'description', 'photo', 'lat', 'lon'
+        'title', 'description', 'photo', 'lat', 'lon', 'location', 'area', 'to'
     ];
 
     public function nearest( $latitude, $longitude, $max_distance = 5, $max_locations = 100, $units = 'kilometers')

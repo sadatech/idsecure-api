@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     protected $fillable = [
-        'description',  'lat', 'lon', 'status', 'user_id', 'type'
+        'description',  'lat', 'lon', 'status', 'user_id', 'type', 'location', 'area'
     ];
 
     public function attachment()
