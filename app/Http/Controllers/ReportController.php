@@ -41,7 +41,7 @@ class ReportController extends Controller
             'description' => 'required_if:type,normal',
             'lat' => 'required',
             'lon' => 'required',
-            'photo1' => 'required_unless:video,required_if:type,normal',
+//            'photo1' => 'required_unless:video,required_if:type,normal',
             'type' => 'required',
             'location' => 'required',
             'area' => 'required',
