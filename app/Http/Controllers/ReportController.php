@@ -41,7 +41,7 @@ class ReportController extends Controller
             'description' => 'required_if:type,normal',
             'lat' => 'required',
             'lon' => 'required',
-            'photo1' => 'required_if:type,normal',
+            'photo1' => 'required_unless:video,required_if:type,normal',
             'type' => 'required',
             'location' => 'required',
             'area' => 'required',
@@ -50,19 +50,61 @@ class ReportController extends Controller
             return response()->json(['error' => $validator->errors()]);
         }
 
-        $files = $request->file('photo');
+
 
         $input = $request->all();
         $input['user_id'] = \Auth::user()->id;
         $report = Report::create($input);
-        foreach ($files as $file) {
-            $fileName = "";
-            if (!empty($file)) {
-                $fileName = time() . $file->getClientOriginalName();
-                $format = time() . $file->getClientMimeType();
-                $file->move('reports', $fileName);
+        if($request->exists('photo1')) {
+            $file1 = $request->file('photo1');
+            $fileName1 = "";
+            if (!empty($file1)) {
+                $fileName1 = time() . $file1->getClientOriginalName();
+                $format = time() . $file1->getClientMimeType();
+                $file1->move('reports', $fileName1);
             }
-
+            $report->attachment()->create([
+                'report_id' => $report->id,
+                'file' => $fileName1,
+                'format' => $format
+            ]);
+        }
+        if($request->exists('photo2')) {
+            $file2 = $request->file('photo2');
+            $fileName2 = "";
+            if (!empty($file2)) {
+                $fileName2 = time() . $file2->getClientOriginalName();
+                $format = time() . $file2->getClientMimeType();
+                $file2->move('reports', $fileName2);
+            }
+            $report->attachment()->create([
+                'report_id' => $report->id,
+                'file' => $fileName2,
+                'format' => $format
+            ]);
+        }
+        if($request->exists('photo3')) {
+            $file3 = $request->file('photo3');
+            $fileName3 = "";
+            if (!empty($file3)) {
+                $fileName3 = time() . $file3->getClientOriginalName();
+                $format = time() . $file3->getClientMimeType();
+                $file3->move('reports', $fileName3);
+            }
+            $report->attachment()->create([
+                'report_id' => $report->id,
+                'file' => $fileName3,
+                'format' => $format
+            ]);
+        }
+        if($request->exists('video')) {
+            $file4 = $request->file('video');
+            $fileName = "";
+            if (!empty($file4)) {
+                $fileName = time() . $file4->getClientOriginalName();
+                $format = time() . $file4->getClientMimeType();
+                $file4->move('reports', $fileName);
+            }
             $report->attachment()->create([
                 'report_id' => $report->id,
                 'file' => $fileName,
