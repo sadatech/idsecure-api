@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\News;
 use App\Report;
 use Illuminate\Http\Request;
 use Validator;
@@ -118,11 +119,11 @@ class ReportController extends Controller
         //
     }
 
-    public function near(Report $report, Request $request)
+    public function near(News $report, Request $request)
     {
         $latitude = $request->lat;
         $longitude = $request->lon;
 
-        return response()->json($report->nearest($latitude, $longitude));
+        return response()->json($report->nearest($latitude, $longitude)->paginate(10));
     }
 }

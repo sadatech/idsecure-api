@@ -15,7 +15,7 @@ class Report extends Model
         return $this->hasMany('App\Attachment');
     }
 
-    public function nearest( $latitude, $longitude, $max_distance = 10, $max_locations = 100, $units = 'kilometers')
+    public function nearest( $latitude, $longitude, $max_distance = 5, $max_locations = 100, $units = 'kilometers')
     {
         switch ( $units ) {
             default:
