@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\News;
+use App\Polda;
 use App\Report;
 use Illuminate\Http\Request;
 use Validator;
@@ -45,11 +46,11 @@ class ReportController extends Controller
             'type' => 'required',
             'location' => 'required',
             'area' => 'required',
+            'province' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()]);
         }
-
 
 
         $input = $request->all();
@@ -111,7 +112,9 @@ class ReportController extends Controller
                 'format' => $format
             ]);
         }
-        return response()->json(['msg' => 'Laporan anda telah diterima']);
+        $report['polda_id'] = Polda::where('province', 'like', '%'.$request->province.'%')->first()->id;
+
+        return response()->json(['msg' => 'Laporan anda telah diterima','data' => $report]);
     }
 
     /**
