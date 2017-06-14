@@ -119,7 +119,7 @@ class ReportController extends Controller
         }
         $report['polda_id'] = Polda::where('province', 'like', "%".$polda."%")->first()->id;
 
-        return response()->json(['msg' => 'Laporan anda telah diterima','data' => $report]);
+        return response()->json(['msg' => 'Laporan anda telah diterima','data' => $report->load('attachment')]);
     }
 
     /**
