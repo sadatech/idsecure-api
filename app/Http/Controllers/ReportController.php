@@ -112,7 +112,15 @@ class ReportController extends Controller
                 'format' => $format
             ]);
         }
-        $report['polda_id'] = Polda::where('province', 'like', '%'.$request->province.'%')->first()->id;
+        if (preg_match("/jakarta/i", $request->province)) {
+            $polda = "Daerah Khusus Ibukota Jakarta";
+        }
+        else if (preg_match("/banten/i", $request->province)) {
+            $polda = "Banten";
+        }else {
+            $polda = $request->province;
+        }
+        $report['polda_id'] = Polda::where('province', 'like', "%".$polda."%")->first()->id;
 
         return response()->json(['msg' => 'Laporan anda telah diterima','data' => $report]);
     }
