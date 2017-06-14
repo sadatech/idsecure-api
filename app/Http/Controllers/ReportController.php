@@ -58,12 +58,9 @@ class ReportController extends Controller
         $report = Report::create($input);
         if($request->exists('photo1')) {
             $file1 = $request->file('photo1');
-            $fileName1 = "";
-            if (!empty($file1)) {
-                $fileName1 = time() . $file1->getClientOriginalName();
-                $format = time() . $file1->getClientMimeType();
-                $file1->move('reports', $fileName1);
-            }
+            $fileName1 = time() . $file1->getClientOriginalName();
+            $format = time() . $file1->getClientMimeType();
+            $file1->move('reports', $fileName1);
             $report->attachment()->create([
                 'report_id' => $report->id,
                 'file' => $fileName1,
